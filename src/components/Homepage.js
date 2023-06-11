@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import BlockInfo from './BlockInfo';
 import TransactionInfo from './TransactionInfo';
 import { Alchemy, Network } from 'alchemy-sdk';
+import { list } from 'postcss';
 
 const settings = {
     apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
+
     network: Network.ETH_MAINNET,
 };
 
@@ -12,10 +14,12 @@ const alchemy = new Alchemy(settings);
 
 const HomePage = () => {
     const [ethPrice, setEthPrice] = useState(0);
+    const [blockList, setBlockList] = useState([]);
+
 
     useEffect(() => {
         fetchEthPrice();
-
+        fetchBlocks();
     }, []);
 
     function fetchEthPrice() {
@@ -29,6 +33,18 @@ const HomePage = () => {
                 console.error('Error fetching Ethereum price:', error);
             });
     }
+
+    async function fetchBlocks() {
+        let latestBlock = await alchemy.core.getBlockNumber();
+        let list = [];
+        for (let i = 0; i < 7; i++) {
+            list.push(await alchemy.core.getBlock(latestBlock - i));
+
+        }
+        setBlockList(list);
+        // console.log(list)
+    }
+
 
 
     return (
@@ -56,13 +72,7 @@ const HomePage = () => {
                             <div className="bg-white rounded-lg shadow-lg p-4 h-full">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900">Block List</h2>
                                 <div className="h-full overflow-y-auto">
-                                    <BlockInfo />
-                                    <BlockInfo />
-                                    <BlockInfo />
-                                    <BlockInfo />
-                                    <BlockInfo />
-                                    <BlockInfo />
-                                    <BlockInfo />
+                                    {blockList.map((block, i) => <BlockInfo block={block} key={i} />)}
                                 </div>
                             </div>
                         </div>
