@@ -1,21 +1,3 @@
-// import React from 'react';
-
-// const TransactionInfo = () => {
-//     const hash = '0x4f2f82ab9d9a57ebf3ff27dc5f55e5f7e1b3d1434cdd54a5fbdadee1a1234'; // Example hash
-//     const truncatedHash = hash.substring(0, 15) + '...'; // Truncate hash to desired length
-
-//     return (
-//         <div className="bg-white rounded shadow-md p-4">
-//             <h3 className="text-xl font-bold mb-2">Transaction #5678</h3>
-//             <p className="text-gray-600">From: 0xabcde12345</p>
-//             <p className="text-gray-600">To: 0xfedcba54321</p>
-//             <p className="text-gray-600 overflow-hidden overflow-ellipsis">{truncatedHash}</p>
-//         </div>
-//     );
-// };
-
-// export default TransactionInfo;
-
 import React from 'react';
 import { GrTransaction } from 'react-icons/gr';
 
