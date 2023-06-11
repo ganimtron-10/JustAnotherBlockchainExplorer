@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import BlockInfo from './BlockInfo';
 import TransactionInfo from './TransactionInfo';
 import { Alchemy, Network } from 'alchemy-sdk';
-import { list } from 'postcss';
 
 const settings = {
     apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
-
     network: Network.ETH_MAINNET,
 };
 
@@ -15,7 +13,7 @@ const alchemy = new Alchemy(settings);
 const HomePage = () => {
     const [ethPrice, setEthPrice] = useState(0);
     const [blockList, setBlockList] = useState([]);
-
+    const [transactionList, setTransactionList] = useState([]);
 
     useEffect(() => {
         fetchEthPrice();
@@ -39,13 +37,22 @@ const HomePage = () => {
         let list = [];
         for (let i = 0; i < 7; i++) {
             list.push(await alchemy.core.getBlock(latestBlock - i));
-
+            if (i == 0) {
+                fetchTransactions(list[0].transactions.slice(0, 7));
+            }
         }
         setBlockList(list);
         // console.log(list)
     }
 
-
+    async function fetchTransactions(transactionHash) {
+        // console.log(transactionHash)
+        let list = [];
+        for (let i = 0; i < 7; i++) {
+            list.push(await alchemy.core.getTransactionReceipt(transactionHash[i]));
+        }
+        setTransactionList(list);
+    }
 
     return (
         <div className="bg-gray-900 min-h-screen">
@@ -81,13 +88,7 @@ const HomePage = () => {
                             <div className="bg-white rounded-lg shadow-lg p-4 h-full">
                                 <h2 className="text-2xl font-bold mb-4 text-gray-900">Transaction List</h2>
                                 <div className="h-full overflow-y-auto">
-                                    <TransactionInfo />
-                                    <TransactionInfo />
-                                    <TransactionInfo />
-                                    <TransactionInfo />
-                                    <TransactionInfo />
-                                    <TransactionInfo />
-                                    <TransactionInfo />
+                                    {transactionList.map((transaction, i) => <TransactionInfo transaction={transaction} key={i} />)}
                                 </div>
                             </div>
                         </div>

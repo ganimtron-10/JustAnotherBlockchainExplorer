@@ -19,7 +19,7 @@
 import React from 'react';
 import { GrTransaction } from 'react-icons/gr';
 
-const TransactionInfo = () => {
+const TransactionInfo = ({ transaction }) => {
     return (
 
         <div className="flex items-center mb-4 w-full">
@@ -27,16 +27,16 @@ const TransactionInfo = () => {
                 <GrTransaction className="text-white text-xl" />
             </div>
             <div className="ml-4 flex-grow">
-                <p className="text-gray-900 font-bold">Transaction #5678</p>
-                <p className="text-gray-500">12 seconds ago</p>
+                <p className="text-gray-900 font-bold">Transaction #{transaction.transactionIndex}</p>
+                {/* <p className="text-gray-500">12 seconds ago</p> */}
             </div>
             <div className="ml-4 flex-grow">
-                <p className="text-gray-900 font-bold">From: 0xabcde12345</p>
-                <p className="text-gray-500">To: 0xfedcba54321</p>
+                <p className="text-gray-900 font-bold">From: {transaction.from.substring(0, 15) + '...'}</p>
+                <p className="text-gray-500">To: {transaction.to.substring(0, 15) + '...'}</p>
             </div>
             <div className="ml-4">
                 <div className="rounded-full bg-gray-300 text-gray-900 px-2 py-1 text-sm">
-                    0.123 ETH
+                    {(parseInt(transaction.effectiveGasPrice._hex) / (10 ** 8)).toFixed(2)} gWei
                 </div>
             </div>
         </div>
