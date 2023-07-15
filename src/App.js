@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom/cjs/react-router-dom';
-import BlockPage from './components/BlockPage';
 import Homepage from './components/Homepage';
+import BlockPage from './components/BlockPage';
+import TransactionPage from './components/TransactionPage';
 
 function App() {
   return <Router>
@@ -10,6 +11,9 @@ function App() {
       </Route>
       <Route path="/block">
         <BlockPage></BlockPage>
+      </Route>
+      <Route path="/transaction">
+        <TransactionPage></TransactionPage>
       </Route>
     </Switch>
   </Router>
